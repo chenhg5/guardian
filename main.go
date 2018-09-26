@@ -16,7 +16,7 @@ func main()  {
 	}
 
 	// TODO: 初始化database, io
-	initWriter()
+	InitWriter()
 
 	eng := New(entrance)
 	eng.Run()

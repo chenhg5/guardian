@@ -23,9 +23,9 @@ func New(path string) *Engine {
 func (eng *Engine) Run() {
 	// 测试
 	for key, suit := range eng.tables {
-		go func() {
+		go func(eng *Engine, key string) {
 			eng.result[key] = suit.Run()
-		}()
+		}(eng, key)
 	}
 
 	// 输出结果
@@ -61,7 +61,7 @@ func (suit *Suit) Run() Result {
 
 		// 对比数据
 		for _, data := range table.Data {
-			checkMysqlOk, checkMysqlResult = CheckMysql(Exec(data.Sql), data.Result)
+			checkMysqlOk, checkMysqlResult = CheckMysql(Query(data.Sql), data.Result)
 			if !checkMysqlOk {
 				pass = false
 				description += checkMysqlResult

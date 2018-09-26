@@ -16,6 +16,11 @@ type Redis struct {
 	Host     string
 }
 
-func Exec(sql string) []map[string]interface{} {
+func InitDatabase() {
+	// TODO: 初始化数据库
+}
+
+func Query(sql string) []map[string]interface{} {
+	// TODO: sql执行
 	return []map[string]interface{}{}
 }

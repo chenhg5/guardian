@@ -15,12 +15,12 @@
   },
   "tables": {
     "serviceA": [
-      "./serviceA/a.json",
-      "./serviceA/b.json"
+      "serviceA/a.json",
+      "serviceA/b.json"
     ],
     "serviceB": [
-      "./serviceB/a.json",
-      "./serviceB/b.json"
+      "serviceB/a.json",
+      "serviceB/b.json"
     ]
   }
 }

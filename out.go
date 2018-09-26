@@ -4,7 +4,7 @@ import "io"
 
 type writer io.Writer
 
-func initWriter()  {
+func InitWriter()  {
 	// TODO: 初始化writer对象
 }
 
