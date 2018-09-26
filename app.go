@@ -51,6 +51,11 @@ func (suit *Suit) Run() Result {
 		// 请求
 		actual = GetRequester(table.Request.Method)(table.Request.Url, table.Request.Param, table.Request.Header)
 
+		if actual == nil {
+			pass = false
+			continue
+		}
+
 		// 对比响应
 		checkResOk, checkResResult = CheckResponse(actual, table.Response)
 
@@ -82,6 +87,7 @@ type Config struct {
 	Tables   map[string][]string
 	Database Database
 	Redis    Redis
+	Vars     map[string]string
 }
 
 type Result struct {
@@ -90,6 +96,10 @@ type Result struct {
 }
 
 type Suits map[string]*Suit
+
+func (su Suits) Add(key string, suit *Suit) {
+	su[key] = suit
+}
 
 // 测试集
 type Suit []Table

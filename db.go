@@ -16,7 +16,7 @@ type Redis struct {
 	Host     string
 }
 
-func InitDatabase() {
+func InitDatabase(database Database) {
 	// TODO: 初始化数据库
 }
 
