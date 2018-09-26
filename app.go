@@ -38,7 +38,7 @@ func (suit *Suit) Run() Result {
 	// 发请求 =》得到响应 =》对比响应 =》对比数据库与redis结果 =》记录结果返回
 
 	var (
-		actual           http.Response
+		actual           *http.Response
 		pass             = true
 		description      = ""
 		checkResOk       bool

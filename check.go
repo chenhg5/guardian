@@ -5,7 +5,7 @@ import (
 	"reflect"
 )
 
-func CheckResponse(actual http.Response, expect TableResponse) (bool, string) {
+func CheckResponse(actual *http.Response, expect TableResponse) (bool, string) {
 
 	// TODO: 比照响应，返回结果和结果字符串
 
