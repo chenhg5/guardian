@@ -48,7 +48,10 @@ func (suit *Suit) Run() Result {
 	)
 	for _, table := range *suit {
 
+		// 请求
 		actual = GetRequester(table.Request.Method)(table.Request.Url, table.Request.Param, table.Request.Header)
+
+		// 对比响应
 		checkResOk, checkResResult = CheckResponse(actual, table.Response)
 
 		if !checkResOk {
@@ -56,6 +59,7 @@ func (suit *Suit) Run() Result {
 			description += checkResResult
 		}
 
+		// 对比数据
 		for _, data := range table.Data {
 			checkMysqlOk, checkMysqlResult = CheckMysql(Exec(data.Sql), data.Result)
 			if !checkMysqlOk {
