@@ -38,11 +38,11 @@ func (suit *Suit) Run() Result {
 	// 发请求 =》得到响应 =》对比响应 =》对比数据库与redis结果 =》记录结果返回
 
 	var (
-		actual          http.Response
-		pass            = true
-		description     = ""
-		checkResOk      bool
-		checkResResult  string
+		actual           http.Response
+		pass             = true
+		description      = ""
+		checkResOk       bool
+		checkResResult   string
 		checkMysqlOk     bool
 		checkMysqlResult string
 	)
@@ -56,13 +56,11 @@ func (suit *Suit) Run() Result {
 			description += checkResResult
 		}
 
-		if len(table.Data) > 0 {
-			for _, datas := range table.Data {
-				checkMysqlOk, checkMysqlResult = CheckMysql(Exec(datas.Sql), datas.Result)
-				if !checkMysqlOk {
-					pass = false
-					description += checkMysqlResult
-				}
+		for _, data := range table.Data {
+			checkMysqlOk, checkMysqlResult = CheckMysql(Exec(data.Sql), data.Result)
+			if !checkMysqlOk {
+				pass = false
+				description += checkMysqlResult
 			}
 		}
 
