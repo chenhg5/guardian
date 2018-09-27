@@ -27,7 +27,7 @@ func Json(url string, params interface{}, headers map[string]string) *http.Respo
 
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(postDataByte))
 	if err != nil {
-		return nil
+		panic(err)
 	}
 	req.Header.Set("Content-Type", "application/json")
 
@@ -39,7 +39,7 @@ func Json(url string, params interface{}, headers map[string]string) *http.Respo
 	res, err := client.Do(req)
 
 	if err != nil {
-		return nil
+		panic(err)
 	}
 
 	return res
@@ -64,7 +64,7 @@ func Get(url string, params interface{}, headers map[string]string) *http.Respon
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		return nil
+		panic(err)
 	}
 
 	for key, header := range headers {
@@ -75,7 +75,7 @@ func Get(url string, params interface{}, headers map[string]string) *http.Respon
 	res, _ := client.Do(req)
 
 	if err != nil {
-		return nil
+		panic(err)
 	}
 	return res
 }
@@ -102,7 +102,7 @@ func FormGet(url string, params interface{}, headers map[string]string) *http.Re
 	res, _ := client.Do(req)
 
 	if err != nil {
-		return nil
+		panic(err)
 	}
 	return res
 }
@@ -130,7 +130,7 @@ func FormPost(url string, params interface{}, headers map[string]string) *http.R
 	res, _ := client.Do(req)
 
 	if err != nil {
-		return nil
+		panic(err)
 	}
 	return res
 }

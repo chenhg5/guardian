@@ -8,7 +8,6 @@ import (
 	"io"
 	"io/ioutil"
 	"compress/gzip"
-	"fmt"
 )
 
 func CheckResponse(actual *http.Response, expect TableResponse) (bool, string) {
@@ -59,8 +58,6 @@ func CheckResponse(actual *http.Response, expect TableResponse) (bool, string) {
 }
 
 func CheckMysql(actual []map[string]interface{}, expect []map[string]interface{}) (bool, string) {
-	fmt.Println("actual", actual, "expect", expect)
-
 	if len(actual) != len(expect) || len(actual) == 0 {
 		return false, ""
 	}
