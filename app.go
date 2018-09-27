@@ -13,7 +13,7 @@ type Engine struct {
 	tables Suits
 
 	// 测试结果
-	result map[string]Result
+	result map[string]Results
 }
 
 func New(path string) *Engine {
@@ -32,7 +32,7 @@ func (eng *Engine) Run() {
 	Output(eng.result)
 }
 
-func (suit *Suit) Run() Result {
+func (suit *Suit) Run() Results {
 
 	// TODO: 运行集合测试
 	// 发请求 =》得到响应 =》对比响应 =》对比数据库与redis结果 =》记录结果返回
@@ -45,6 +45,7 @@ func (suit *Suit) Run() Result {
 		checkResResult   string
 		checkMysqlOk     bool
 		checkMysqlResult string
+		resultList       = make([]Result, 0)
 	)
 	for _, table := range *suit {
 
@@ -73,12 +74,18 @@ func (suit *Suit) Run() Result {
 			}
 		}
 
+		resultList = append(resultList, Result{
+			Pass: pass,
+			Description: description,
+		})
+
 		// TODO: 设置全局变量
 	}
 
-	return Result{
+	return Results{
 		Pass:        pass,
 		Description: description,
+		List:        resultList,
 	}
 }
 
@@ -90,9 +97,17 @@ type Config struct {
 	Vars     map[string]string
 }
 
+type Results struct {
+	List        []Result
+	Description string
+	Title       string
+	Pass        bool
+}
+
 type Result struct {
 	Pass        bool
 	Description string
+	Title       string
 }
 
 type Suits map[string]*Suit

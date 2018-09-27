@@ -1,14 +1,44 @@
 package guardian
 
-import "io"
+import (
+	"io"
+	"os"
+	"fmt"
+)
 
-type writer io.Writer
+var writer io.Writer
 
 func InitWriter()  {
-	// TODO: 初始化writer对象
+	writer = io.MultiWriter(os.Stdout)
 }
 
-func Output(value map[string]Result)  {
+func Output(value map[string]Results)  {
+	for suit, results := range value {
+		fmt.Fprintf(writer, "SUIT: %v", suit)
+		fmt.Fprintf(writer, "=================================================\n")
 
-	// TODO: 输出到终端或文件
+		count := 0
+
+		for _, result := range results.List {
+			if count != 0 {
+				fmt.Fprintf(writer, "=================================================\n")
+			}
+			if result.Pass {
+				fmt.Fprintf(writer, "%v                                   Ok\n", result.Title)
+			} else {
+				fmt.Fprintf(writer, "%v                                   ERROR\n", result.Title)
+			}
+
+			fmt.Fprintf(writer, "=================================================\n")
+			count++
+		}
+
+		fmt.Fprint(writer, "\n")
+
+		if results.Pass {
+			fmt.Fprintf(writer, "Ok")
+		} else {
+			fmt.Fprintf(writer, "Error")
+		}
+	}
 }

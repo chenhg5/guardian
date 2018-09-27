@@ -49,7 +49,7 @@ func Read(path string, engine *Engine) *Engine {
 		engine.tables.Add(suit, &tableList)
 	}
 
-	// 读取表格信息
+	// 设置全局变量
 	engine.vars = config.Vars
 
 	return engine
