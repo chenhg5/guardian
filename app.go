@@ -42,7 +42,6 @@ func (eng *Engine) Run() {
 
 func (suit *Suit) Run() Results {
 
-	// TODO: 运行集合测试
 	// 发请求 =》得到响应 =》对比响应 =》对比数据库与redis结果 =》记录结果返回
 
 	var (
