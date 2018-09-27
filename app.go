@@ -1,6 +1,9 @@
-package guardian
+package main
 
-import "net/http"
+import (
+	"net/http"
+	"sync"
+)
 
 type Engine struct {
 	// 入口文件
@@ -22,11 +25,16 @@ func New(path string) *Engine {
 
 func (eng *Engine) Run() {
 	// 测试
+	var wg sync.WaitGroup
 	for key, suit := range eng.tables {
+		wg.Add(1)
 		go func(eng *Engine, key string) {
 			eng.result[key] = suit.Run()
+			wg.Add(-1)
 		}(eng, key)
 	}
+
+	wg.Wait()
 
 	// 输出结果
 	Output(eng.result)
@@ -40,6 +48,8 @@ func (suit *Suit) Run() Results {
 	var (
 		actual           *http.Response
 		pass             = true
+		resPass          = true
+		dataPass         = true
 		description      = ""
 		checkResOk       bool
 		checkResResult   string
@@ -62,6 +72,7 @@ func (suit *Suit) Run() Results {
 
 		if !checkResOk {
 			pass = false
+			resPass = false
 			description += checkResResult
 		}
 
@@ -70,16 +81,17 @@ func (suit *Suit) Run() Results {
 			checkMysqlOk, checkMysqlResult = CheckMysql(Query(data.Sql), data.Result)
 			if !checkMysqlOk {
 				pass = false
+				dataPass = false
 				description += checkMysqlResult
 			}
 		}
 
 		resultList = append(resultList, Result{
-			Pass: pass,
+			ResPass:     resPass,
+			DataPass:    dataPass,
 			Description: description,
+			Title:       table.Info.Title,
 		})
-
-		// TODO: 设置全局变量
 	}
 
 	return Results{
@@ -105,7 +117,8 @@ type Results struct {
 }
 
 type Result struct {
-	Pass        bool
+	ResPass     bool
+	DataPass    bool
 	Description string
 	Title       string
 }
@@ -143,9 +156,8 @@ type TableRequest struct {
 
 // 响应信息
 type TableResponse struct {
-	Header   map[string]string
-	Body     interface{}
-	BodyType string
+	Header map[string]string
+	Body   interface{}
 }
 
 // 数据信息

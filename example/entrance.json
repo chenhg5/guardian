@@ -1,11 +1,11 @@
 {
   "database": {
-    "port": "",
-    "user": "",
-    "password": "",
-    "charset": "",
-    "host": "",
-    "table": ""
+    "port": "3306",
+    "user": "root",
+    "password": "root",
+    "charset": "utf8mb4",
+    "host": "127.0.0.1",
+    "database": "godmin"
   },
   "redis": {
     "database": "",
@@ -17,10 +17,6 @@
     "serviceA": [
       "serviceA/a.json",
       "serviceA/b.json"
-    ],
-    "serviceB": [
-      "serviceB/a.json",
-      "serviceB/b.json"
     ]
   }
 }

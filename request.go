@@ -1,4 +1,4 @@
-package guardian
+package main
 
 import (
 	"net/http"
@@ -20,6 +20,9 @@ func Json(url string, params interface{}, headers map[string]string) *http.Respo
 		return nil
 	}
 
+	// 替代全局变量
+	postDataByte = []byte(GlobalVars.Replace(string(postDataByte)))
+
 	client := http.DefaultClient
 
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(postDataByte))
@@ -29,6 +32,7 @@ func Json(url string, params interface{}, headers map[string]string) *http.Respo
 	req.Header.Set("Content-Type", "application/json")
 
 	for key, header := range headers {
+		header = GlobalVars.Replace(header)
 		req.Header.Set(key, header)
 	}
 
@@ -43,12 +47,15 @@ func Json(url string, params interface{}, headers map[string]string) *http.Respo
 
 func Get(url string, params interface{}, headers map[string]string) *http.Response {
 	var count = 0
-	data := params.(map[string]string)
+	data := params.(map[string]interface{})
+	var value string
 	for k, v := range data {
+		value = v.(string)
+		v = GlobalVars.Replace(value)
 		if count == 0 {
-			url += "?" + k + "=" + v
+			url += "?" + k + "=" + value
 		} else {
-			url += "&" + k + "=" + v
+			url += "&" + k + "=" + value
 		}
 		count++
 	}
@@ -61,6 +68,7 @@ func Get(url string, params interface{}, headers map[string]string) *http.Respon
 	}
 
 	for key, header := range headers {
+		header = GlobalVars.Replace(header)
 		req.Header.Set(key, header)
 	}
 
@@ -74,10 +82,12 @@ func Get(url string, params interface{}, headers map[string]string) *http.Respon
 
 func FormGet(url string, params interface{}, headers map[string]string) *http.Response {
 	data := make(neturl.Values)
-	formData := params.(map[string]string)
-
+	formData := params.(map[string]interface{})
+	var value string
 	for k, v := range formData {
-		data[k] = []string{v}
+		value = v.(string)
+		v = GlobalVars.Replace(value)
+		data[k] = []string{value}
 	}
 
 	client := http.DefaultClient
@@ -85,6 +95,7 @@ func FormGet(url string, params interface{}, headers map[string]string) *http.Re
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 	for key, header := range headers {
+		header = GlobalVars.Replace(header)
 		req.Header.Set(key, header)
 	}
 
@@ -98,10 +109,13 @@ func FormGet(url string, params interface{}, headers map[string]string) *http.Re
 
 func FormPost(url string, params interface{}, headers map[string]string) *http.Response {
 	data := make(neturl.Values)
-	formData := params.(map[string]string)
+	formData := params.(map[string]interface{})
 
+	var value string
 	for k, v := range formData {
-		data[k] = []string{v}
+		value = v.(string)
+		v = GlobalVars.Replace(value)
+		data[k] = []string{value}
 	}
 
 	client := http.DefaultClient
@@ -109,6 +123,7 @@ func FormPost(url string, params interface{}, headers map[string]string) *http.R
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 	for key, header := range headers {
+		header = GlobalVars.Replace(header)
 		req.Header.Set(key, header)
 	}
 

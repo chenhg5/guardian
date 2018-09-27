@@ -1,4 +1,4 @@
-package guardian
+package main
 
 import (
 	"flag"

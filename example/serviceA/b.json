@@ -1,9 +1,25 @@
 {
   "info": {
-    "title": "",
-    "description": ""
+    "title": "检查232323b",
+    "description": "检查232323b"
   },
-  "request": {},
-  "response": {},
+  "request": {
+    "url": "http://127.0.0.1:9087",
+    "method": "get",
+    "params": {
+
+    },
+    "header": {
+
+    }
+  },
+  "response": {
+    "body": {
+
+    },
+    "header": {
+
+    }
+  },
   "data": []
 }

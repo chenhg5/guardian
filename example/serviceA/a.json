@@ -1,9 +1,25 @@
 {
   "info": {
-    "title": "",
-    "description": ""
+    "title": "检查a",
+    "description": "检查a"
   },
-  "request": {},
-  "response": {},
+  "request": {
+    "url": "http://127.0.0.1:9087",
+    "method": "get",
+    "params": {
+
+    },
+    "header": {
+
+    }
+  },
+  "response": {
+    "body": {
+
+    },
+    "header": {
+
+    }
+  },
   "data": []
 }

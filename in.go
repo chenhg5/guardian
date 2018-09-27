@@ -1,27 +1,39 @@
-package guardian
+package main
 
 import (
 	"os"
 	"encoding/json"
+	"path"
 )
 
-func Read(path string, engine *Engine) *Engine {
-	engine.entrance = path
+func Read(entrancePath string, engine *Engine) *Engine {
+	engine.entrance = entrancePath
+	engine.tables = make(Suits, 0)
+	engine.result = make(map[string]Results, 0)
 
 	// 入口文件读取配置
-	entrance, err := os.Open(path)
+	entrance, err := os.Open(entrancePath)
 	defer entrance.Close()
 	if err != nil {
-		panic("")
+		panic(err)
 	}
-	configByte := make([]byte, 0)
+	fileinfo, err := entrance.Stat()
+	if err != nil {
+		panic(err)
+	}
+	fileSize := fileinfo.Size()
+	configByte := make([]byte, fileSize)
 	_, err = entrance.Read(configByte)
 	if err != nil {
-		panic("")
+		panic(err)
 	}
 
 	var config Config
-	json.Unmarshal(configByte, &config)
+	if err := json.Unmarshal(configByte, &config); err != nil {
+		panic(err)
+	}
+
+	dir := path.Dir(entrancePath)
 
 	// 初始化数据库
 	InitDatabase(config.Database)
@@ -30,16 +42,21 @@ func Read(path string, engine *Engine) *Engine {
 	for suit, tables := range config.Tables {
 		var tableList = make(Suit, 0)
 		for i := 0; i < len(tables); i++ {
-			tableFile, err := os.Open(tables[i])
+			tableFile, err := os.Open(dir + "/" + tables[i])
 			if err != nil {
 				tableFile.Close()
-				panic("")
+				panic(err)
 			}
-			tableByte := make([]byte, 0)
+			fileinfo, err := tableFile.Stat()
+			if err != nil {
+				panic(err)
+			}
+			fileSize := fileinfo.Size()
+			tableByte := make([]byte, fileSize)
 			_, err = tableFile.Read(tableByte)
 			if err != nil {
 				tableFile.Close()
-				panic("")
+				panic(err)
 			}
 			tableFile.Close()
 			var table Table
@@ -51,6 +68,7 @@ func Read(path string, engine *Engine) *Engine {
 
 	// 设置全局变量
 	engine.vars = config.Vars
+	GlobalVars = config.Vars
 
 	return engine
 }
