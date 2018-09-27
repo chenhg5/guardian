@@ -56,11 +56,14 @@ func (suit *Suit) Run() Results {
 		checkMysqlOk     bool
 		checkMysqlResult string
 		resultList       = make([]Result, 0)
+		url              string
 	)
 	for _, table := range *suit {
 
 		// 请求
-		actual = GetRequester(table.Request.Method)(table.Request.Url, table.Request.Param, table.Request.Header)
+
+		url = GlobalVars.Replace(table.Request.Url)
+		actual = GetRequester(table.Request.Method)(url, table.Request.Param, table.Request.Header)
 
 		if actual == nil {
 			pass = false
