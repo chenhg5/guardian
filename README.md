@@ -5,6 +5,9 @@
 ## 使用
 
 ```
+go get -u -v github.com/chenhg5/guardian
+go install github.com/chenhg5/guardian
+
 guardian --test=./example/entrance.json
 
 SUIT: order
