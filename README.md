@@ -7,12 +7,14 @@
 ```
 guardian --test=./example/entrance.json
 
+SUIT: order
 =================================================
-出题                                   OK
+create_order                        OK
 =================================================
-出题                                   ERROR
-error message
+pay_order                          Fail
 =================================================
+
+Fail
 
 ```
 
