@@ -3,7 +3,7 @@ package main
 import (
 	"net/http"
 	"bytes"
-	"github.com/gin-gonic/gin/json"
+	"encoding/json"
 	neturl "net/url"
 	"strings"
 )
