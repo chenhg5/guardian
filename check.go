@@ -98,6 +98,9 @@ func CheckMap(a map[string]interface{}, e map[string]interface{}) bool {
 					GlobalVars.Add(find, value.(string))
 					continue
 				}
+				if e[key].(string) == "*" {
+					continue
+				}
 			} else {
 				return false
 			}
