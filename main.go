@@ -15,7 +15,6 @@ func main()  {
 		panic("wrong parameter")
 	}
 
-	// TODO: 初始化database, io
 	InitWriter()
 
 	eng := New(entrance)
