@@ -1,0 +1,30 @@
+{
+  "info": {
+    "title": "获取订单",
+    "description": "获取订单"
+  },
+  "request": {
+    "url": "{{host}}/order/112313",
+    "method": "get",
+    "params": {
+    },
+    "header": {
+    }
+  },
+  "response": {
+    "body": {
+      "code": 0,
+      "msg": "ok",
+      "data": {
+        "order": {
+          "amount": 15.45,
+          "created_at": "2018-10-03 00:00:00",
+          "state": 1
+        }
+      }
+    },
+    "header": {
+    }
+  },
+  "data": []
+}

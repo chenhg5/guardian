@@ -1,13 +1,13 @@
 {
   "info": {
-    "title": "检查a",
-    "description": "检查a"
+    "title": "修改用户",
+    "description": "修改用户"
   },
   "request": {
-    "url": "http://127.0.0.1:9087",
-    "method": "get",
+    "url": "{{host}}/user",
+    "method": "json",
     "params": {
-
+      "id": 1
     },
     "header": {
 
@@ -15,7 +15,8 @@
   },
   "response": {
     "body": {
-
+      "code": 0,
+      "msg":  "ok",
     },
     "header": {
 

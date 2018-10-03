@@ -1,0 +1,26 @@
+{
+  "info": {
+    "title": "创建订单",
+    "description": "创建订单"
+  },
+  "request": {
+    "url": "{{host}}/order/123123",
+    "method": "get",
+    "params": {
+    },
+    "header": {
+    }
+  },
+  "response": {
+    "body": {
+      "code": 0,
+      "msg": "ok",
+      "data": {
+        "orderNum": "PYpaXEQvw4wqJntDRT8PUwXBvyTeccbf"
+      }
+    },
+    "header": {
+    }
+  },
+  "data": []
+}

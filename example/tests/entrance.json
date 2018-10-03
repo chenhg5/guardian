@@ -14,9 +14,16 @@
     "host": ""
   },
   "tables": {
-    "serviceA": [
-      "serviceA/a.json",
-      "serviceA/b.json"
+    "users": [
+      "users/get.json",
+      "users/post.json"
+    ],
+    "orders": [
+      "orders/get.json",
+      "orders/post.json"
     ]
+  },
+  "vars": {
+    "host": "http://127.0.0.1:1235"
   }
 }

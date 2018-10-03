@@ -17,6 +17,9 @@ type Engine struct {
 
 	// 测试结果
 	result map[string]Results
+
+	// 竞争锁
+	reslock sync.Mutex
 }
 
 func New(path string) *Engine {
@@ -29,7 +32,9 @@ func (eng *Engine) Run() {
 	for key, suit := range eng.tables {
 		wg.Add(1)
 		go func(eng *Engine, key string) {
+			eng.reslock.Lock()
 			eng.result[key] = suit.Run()
+			eng.reslock.Unlock()
 			wg.Add(-1)
 		}(eng, key)
 	}

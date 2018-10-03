@@ -1,0 +1,32 @@
+{
+  "info": {
+    "title": "获取用户",
+    "description": "获取用户"
+  },
+  "request": {
+    "url": "{{host}}/user",
+    "method": "get",
+    "params": {
+      "id": 1
+    },
+    "header": {
+    }
+  },
+  "response": {
+    "body": {
+      "code": 0,
+      "msg": "ok",
+      "data": {
+        "user": {
+          "name": "Jack",
+          "sex": 1,
+          "phone": "038-09829010",
+          "Job": "engineer"
+        }
+      }
+    },
+    "header": {
+    }
+  },
+  "data": []
+}
