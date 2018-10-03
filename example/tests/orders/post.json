@@ -4,8 +4,8 @@
     "description": "创建订单"
   },
   "request": {
-    "url": "{{host}}/order/123123",
-    "method": "get",
+    "url": "{{host}}/order",
+    "method": "json",
     "params": {
     },
     "header": {

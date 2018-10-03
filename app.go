@@ -31,12 +31,13 @@ func (eng *Engine) Run() {
 	var wg sync.WaitGroup
 	for key, suit := range eng.tables {
 		wg.Add(1)
-		go func(eng *Engine, key string) {
+		result := suit.Run()
+		go func(eng *Engine, key string, result Results) {
 			eng.reslock.Lock()
-			eng.result[key] = suit.Run()
+			eng.result[key] = result
 			eng.reslock.Unlock()
 			wg.Add(-1)
-		}(eng, key)
+		}(eng, key, result)
 	}
 
 	wg.Wait()
