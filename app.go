@@ -62,13 +62,33 @@ func (suit *Suit) Run() Results {
 		checkMysqlResult string
 		resultList       = make([]Result, 0)
 		url              string
+		reqWg            sync.WaitGroup
 	)
 	for _, table := range *suit {
 
 		// 请求
 
 		url = GlobalVars.Replace(table.Request.Url)
-		actual = GetRequester(table.Request.Method)(url, table.Request.Param, table.Request.Header)
+
+		if table.Concurrent == 0 {
+			for i := 0; i < table.Concurrent+1; i++ {
+				reqWg.Add(1)
+				go func() {
+					actual = GetRequester(table.Request.Method)(url, table.Request.Param, table.Request.Header)
+					reqWg.Add(-1)
+				}()
+			}
+		} else {
+			for i := 0; i < table.Concurrent; i++ {
+				reqWg.Add(1)
+				go func() {
+					actual = GetRequester(table.Request.Method)(url, table.Request.Param, table.Request.Header)
+					reqWg.Add(-1)
+				}()
+			}
+		}
+
+		reqWg.Wait()
 
 		if actual == nil {
 			pass = false
@@ -142,10 +162,11 @@ type Suit []Table
 
 // 测试表格
 type Table struct {
-	Info     Info
-	Request  TableRequest
-	Response TableResponse
-	Data     []TableData
+	Info       Info
+	Concurrent int
+	Request    TableRequest
+	Response   TableResponse
+	Data       []TableData
 }
 
 // 表格信息

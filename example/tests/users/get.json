@@ -3,6 +3,7 @@
     "title": "获取用户",
     "description": "获取用户"
   },
+  "concurrent": 2,
   "request": {
     "url": "{{host}}/user",
     "method": "get",
