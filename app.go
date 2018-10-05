@@ -67,6 +67,8 @@ func (suit *Suit) Run() Results {
 	)
 	for _, table := range *suit {
 
+		resDesc = ""
+
 		// 请求
 
 		url = GlobalVars.Replace(table.Request.Url)
