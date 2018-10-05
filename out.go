@@ -52,7 +52,12 @@ func Output(value map[string]Results)  {
 
 			if !result.ResPass {
 				fmt.Fprintf(writer, "-------------------------------------------------\n")
-				fmt.Fprintf(writer, ansi.Color(" actual response \n\n", "yellow+b") + result.Description + "\n")
+				fmt.Fprintf(writer, ansi.Color("response \n\n", "yellow+b") + result.ResDesc + "\n")
+			}
+
+			if !result.DataPass {
+				fmt.Fprintf(writer, "-------------------------------------------------\n")
+				fmt.Fprintf(writer, ansi.Color("sql \n\n", "yellow+b") + result.SqlDesc + "\n")
 			}
 
 			fmt.Fprintf(writer, "=================================================\n")

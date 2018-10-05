@@ -57,6 +57,7 @@ func (suit *Suit) Run() Results {
 		resPass          = true
 		dataPass         = true
 		resDesc          = ""
+		sqlDesc          = ""
 		finalDesc        = ""
 		checkResOk       bool
 		checkResResult   string
@@ -68,6 +69,7 @@ func (suit *Suit) Run() Results {
 	for _, table := range *suit {
 
 		resDesc = ""
+		sqlDesc = ""
 		resPass = true
 		dataPass = true
 
@@ -106,19 +108,20 @@ func (suit *Suit) Run() Results {
 
 		// 对比数据
 		for _, data := range table.Data {
-			checkMysqlOk, checkMysqlResult = CheckMysql(Query(data.Sql), data.Result)
+			checkMysqlOk, checkMysqlResult = CheckMysql(Query(data.Sql), GlobalVars.ReplaceMap(data.Result))
 			if !checkMysqlOk {
 				pass = false
 				dataPass = false
-				resDesc += checkMysqlResult
+				sqlDesc += checkMysqlResult
 			}
 		}
 
 		resultList = append(resultList, Result{
-			ResPass:     resPass,
-			DataPass:    dataPass,
-			Description: resDesc,
-			Title:       table.Info.Title,
+			ResPass:  resPass,
+			DataPass: dataPass,
+			ResDesc:  resDesc,
+			SqlDesc:  sqlDesc,
+			Title:    table.Info.Title,
 		})
 	}
 
@@ -145,10 +148,11 @@ type Results struct {
 }
 
 type Result struct {
-	ResPass     bool
-	DataPass    bool
-	Description string
-	Title       string
+	ResPass  bool
+	DataPass bool
+	ResDesc  string
+	SqlDesc  string
+	Title    string
 }
 
 type Suits map[string]*Suit
