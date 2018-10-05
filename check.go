@@ -49,7 +49,7 @@ func CheckResponse(actual *http.Response, expect TableResponse) (bool, string) {
 		if CheckMap(actualBody, expectBody) {
 			return true, ""
 		} else {
-			return false, "actual response: " + string(bodyByte) + "\n\n"
+			return false, string(bodyByte)
 		}
 
 	} else {
