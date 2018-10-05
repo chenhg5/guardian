@@ -37,7 +37,7 @@ func CheckResponse(actual *http.Response, expect TableResponse) (bool, string) {
 		if string(bodyByte) == expectBody {
 			return true, ""
 		} else {
-			return false, "not match"
+			return false, string(bodyByte)
 		}
 	} else if expectBody, ok := expect.Body.(map[string]interface{}); ok {
 

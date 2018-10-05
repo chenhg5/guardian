@@ -52,7 +52,7 @@ func (suit *Suit) Run() Results {
 
 	var (
 		actual           *http.Response
-		actualChan       chan *http.Response
+		actualChan       = make(chan *http.Response, 0)
 		pass             = true
 		resPass          = true
 		dataPass         = true
@@ -68,20 +68,15 @@ func (suit *Suit) Run() Results {
 	for _, table := range *suit {
 
 		resDesc = ""
+		resPass = true
+		dataPass = true
 
 		// 请求
 
 		url = GlobalVars.Replace(table.Request.Url)
 
 		if table.Concurrent == 0 {
-			go func() {
-				actualChan <- GetRequester(table.Request.Method)(url, table.Request.Param, table.Request.Header)
-			}()
-			count := 0
-			for count < table.Concurrent + 1 {
-				actual = <-actualChan
-				count++
-			}
+			actual = GetRequester(table.Request.Method)(url, table.Request.Param, table.Request.Header)
 		} else {
 			for i := 0; i < table.Concurrent; i++ {
 				go func() {
