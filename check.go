@@ -79,6 +79,7 @@ func CheckRedis(actual map[string]interface{}, expect map[string]interface{}) (b
 }
 
 func CheckMap(a map[string]interface{}, e map[string]interface{}) bool {
+
 	var (
 		find string
 		reg  = regexp.MustCompile("{{(.*?)}}")
