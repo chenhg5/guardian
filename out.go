@@ -50,6 +50,11 @@ func Output(value map[string]Results)  {
 				fmt.Fprintf(writer, "%-29s%24s", "数据比对", failMark)
 			}
 
+			if !result.ResPass {
+				fmt.Fprintf(writer, "-------------------------------------------------\n")
+				fmt.Fprintf(writer, result.Description)
+			}
+
 			fmt.Fprintf(writer, "=================================================\n")
 			count++
 		}

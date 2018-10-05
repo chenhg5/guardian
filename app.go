@@ -55,7 +55,8 @@ func (suit *Suit) Run() Results {
 		pass             = true
 		resPass          = true
 		dataPass         = true
-		description      = ""
+		resDesc          = ""
+		finalDesc        = ""
 		checkResOk       bool
 		checkResResult   string
 		checkMysqlOk     bool
@@ -101,7 +102,7 @@ func (suit *Suit) Run() Results {
 		if !checkResOk {
 			pass = false
 			resPass = false
-			description += checkResResult
+			resDesc += checkResResult
 		}
 
 		// 对比数据
@@ -110,21 +111,21 @@ func (suit *Suit) Run() Results {
 			if !checkMysqlOk {
 				pass = false
 				dataPass = false
-				description += checkMysqlResult
+				resDesc += checkMysqlResult
 			}
 		}
 
 		resultList = append(resultList, Result{
 			ResPass:     resPass,
 			DataPass:    dataPass,
-			Description: description,
+			Description: resDesc,
 			Title:       table.Info.Title,
 		})
 	}
 
 	return Results{
 		Pass:        pass,
-		Description: description,
+		Description: finalDesc,
 		List:        resultList,
 	}
 }
