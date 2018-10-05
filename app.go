@@ -52,6 +52,7 @@ func (suit *Suit) Run() Results {
 
 	var (
 		actual           *http.Response
+		actualChan       chan *http.Response
 		pass             = true
 		resPass          = true
 		dataPass         = true
@@ -63,7 +64,6 @@ func (suit *Suit) Run() Results {
 		checkMysqlResult string
 		resultList       = make([]Result, 0)
 		url              string
-		reqWg            sync.WaitGroup
 	)
 	for _, table := range *suit {
 
@@ -74,24 +74,26 @@ func (suit *Suit) Run() Results {
 		url = GlobalVars.Replace(table.Request.Url)
 
 		if table.Concurrent == 0 {
-			for i := 0; i < table.Concurrent+1; i++ {
-				reqWg.Add(1)
-				go func() {
-					actual = GetRequester(table.Request.Method)(url, table.Request.Param, table.Request.Header)
-					reqWg.Add(-1)
-				}()
+			go func() {
+				actualChan <- GetRequester(table.Request.Method)(url, table.Request.Param, table.Request.Header)
+			}()
+			count := 0
+			for count < table.Concurrent + 1 {
+				actual = <-actualChan
+				count++
 			}
 		} else {
 			for i := 0; i < table.Concurrent; i++ {
-				reqWg.Add(1)
 				go func() {
-					actual = GetRequester(table.Request.Method)(url, table.Request.Param, table.Request.Header)
-					reqWg.Add(-1)
+					actualChan <- GetRequester(table.Request.Method)(url, table.Request.Param, table.Request.Header)
 				}()
 			}
+			count := 0
+			for count < table.Concurrent {
+				actual = <-actualChan
+				count++
+			}
 		}
-
-		reqWg.Wait()
 
 		if actual == nil {
 			pass = false
