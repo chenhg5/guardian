@@ -37,7 +37,7 @@ func CheckResponse(actual *http.Response, expect TableResponse) (bool, string) {
 		if string(bodyByte) == expectBody {
 			return true, ""
 		} else {
-			return false, string(bodyByte) + "\n" + expectBody
+			return false, string(bodyByte) + "\n\n" + expectBody
 		}
 	} else if expectBody, ok := expect.Body.(map[string]interface{}); ok {
 
@@ -50,7 +50,7 @@ func CheckResponse(actual *http.Response, expect TableResponse) (bool, string) {
 			return true, ""
 		} else {
 			expectByte, _ := json.Marshal(expectBody)
-			return false, string(bodyByte) + "\n" +  string(expectByte)
+			return false, string(bodyByte) + "\n\n" +  string(expectByte)
 		}
 
 	} else {
@@ -62,14 +62,14 @@ func CheckMysql(actual []map[string]interface{}, expect []map[string]interface{}
 	if len(actual) != len(expect) || len(actual) == 0 {
 		actualByte, _ := json.Marshal(actual)
 		expectByte, _ := json.Marshal(expect)
-		return false, string(expectByte) + "\n" +  string(actualByte)
+		return false, string(expectByte) + "\n\n" +  string(actualByte)
 	}
 
 	for i := 0; i < len(actual); i++ {
 		if !CheckMapIgnoreInt64(actual[i], expect[i]) {
 			actualByte, _ := json.Marshal(actual)
 			expectByte, _ := json.Marshal(expect)
-			return false, string(expectByte) + "\n" +  string(actualByte)
+			return false, string(expectByte) + "\n\n" +  string(actualByte)
 		}
 	}
 
