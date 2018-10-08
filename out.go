@@ -13,7 +13,7 @@ func InitWriter()  {
 	writer = io.MultiWriter(os.Stdout)
 }
 
-func Output(value map[string]Results)  {
+func Output(value map[string]Results, debug bool)  {
 	fmt.Fprintf(writer, "\n")
 
 	var (
@@ -50,12 +50,12 @@ func Output(value map[string]Results)  {
 				fmt.Fprintf(writer, "%-29s%24s", "数据比对", failMark)
 			}
 
-			if !result.ResPass {
+			if !result.ResPass || debug {
 				fmt.Fprintf(writer, "-------------------------------------------------\n")
 				fmt.Fprintf(writer, ansi.Color("response \n\n", "yellow+b") + result.ResDesc + "\n")
 			}
 
-			if !result.DataPass {
+			if !result.DataPass || debug {
 				fmt.Fprintf(writer, "-------------------------------------------------\n")
 				fmt.Fprintf(writer, ansi.Color("sql \n\n", "yellow+b") + result.SqlDesc + "\n")
 			}

@@ -35,7 +35,7 @@ func CheckResponse(actual *http.Response, expect TableResponse) (bool, string) {
 
 	if expectBody, ok := expect.Body.(string); ok {
 		if string(bodyByte) == expectBody {
-			return true, ""
+			return true, string(bodyByte) + "\n\n" + expectBody
 		} else {
 			return false, string(bodyByte) + "\n\n" + expectBody
 		}
@@ -46,11 +46,11 @@ func CheckResponse(actual *http.Response, expect TableResponse) (bool, string) {
 
 		// float64, map[string]interface{}, string
 
+		expectByte, _ := json.Marshal(expectBody)
 		if CheckMap(actualBody, expectBody) {
-			return true, ""
+			return true, string(bodyByte) + "\n\n" + string(expectByte)
 		} else {
-			expectByte, _ := json.Marshal(expectBody)
-			return false, string(bodyByte) + "\n\n" +  string(expectByte)
+			return false, string(bodyByte) + "\n\n" + string(expectByte)
 		}
 
 	} else {
@@ -59,21 +59,21 @@ func CheckResponse(actual *http.Response, expect TableResponse) (bool, string) {
 }
 
 func CheckMysql(actual []map[string]interface{}, expect []map[string]interface{}) (bool, string) {
+
+	actualByte, _ := json.Marshal(actual)
+	expectByte, _ := json.Marshal(expect)
+
 	if len(actual) != len(expect) || len(actual) == 0 {
-		actualByte, _ := json.Marshal(actual)
-		expectByte, _ := json.Marshal(expect)
-		return false, string(expectByte) + "\n\n" +  string(actualByte)
+		return false, string(expectByte) + "\n\n" + string(actualByte)
 	}
 
 	for i := 0; i < len(actual); i++ {
 		if !CheckMapIgnoreInt64(actual[i], expect[i]) {
-			actualByte, _ := json.Marshal(actual)
-			expectByte, _ := json.Marshal(expect)
-			return false, string(expectByte) + "\n\n" +  string(actualByte)
+			return false, string(expectByte) + "\n\n" + string(actualByte)
 		}
 	}
 
-	return true, ""
+	return true, string(expectByte) + "\n\n" + string(actualByte)
 }
 
 func CheckRedis(actual map[string]interface{}, expect map[string]interface{}) (bool, string) {

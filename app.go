@@ -20,6 +20,9 @@ type Engine struct {
 
 	// 竞争锁
 	reslock sync.Mutex
+
+	// 是否是调试模式
+	debug bool
 }
 
 func New(path string) *Engine {
@@ -43,7 +46,7 @@ func (eng *Engine) Run() {
 	wg.Wait()
 
 	// 输出结果
-	Output(eng.result)
+	Output(eng.result, eng.debug)
 }
 
 func (suit *Suit) Run() Results {
@@ -103,8 +106,9 @@ func (suit *Suit) Run() Results {
 		if !checkResOk {
 			pass = false
 			resPass = false
-			resDesc += checkResResult
 		}
+
+		resDesc += checkResResult
 
 		// 对比数据
 		for _, data := range table.Data {
@@ -112,8 +116,8 @@ func (suit *Suit) Run() Results {
 			if !checkMysqlOk {
 				pass = false
 				dataPass = false
-				sqlDesc += checkMysqlResult
 			}
+			sqlDesc += checkMysqlResult
 		}
 
 		resultList = append(resultList, Result{
@@ -138,6 +142,7 @@ type Config struct {
 	Database Database
 	Redis    Redis
 	Vars     map[string]string
+	Debug    bool
 }
 
 type Results struct {

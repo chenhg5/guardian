@@ -69,6 +69,7 @@ func Read(entrancePath string, engine *Engine) *Engine {
 	// 设置全局变量
 	engine.vars = config.Vars
 	GlobalVars = config.Vars
+	engine.debug = config.Debug
 
 	return engine
 }
