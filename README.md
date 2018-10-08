@@ -1,6 +1,6 @@
 # Guardian
 
-测试框架，表格测试
+api测试框架，表格测试，编写json文件，即可测试api的响应以及对应数据库的正确性，以及测试并发的数据准确性。
 
 ## 使用
 
@@ -20,6 +20,8 @@ pay_order                          Fail
 Fail
 
 ```
+
+```entrance.json```为入口文件，例子详见 example/entrance.json
 
 ## 流程
 
