@@ -8,7 +8,7 @@ api测试框架，表格测试，编写json文件，即可测试api的响应以�
 go get -u -v github.com/chenhg5/guardian
 go install github.com/chenhg5/guardian
 
-guardian --test=./example/entrance.json
+guardian --tests=./example/entrance.json
 
 SUIT: order
 =================================================
