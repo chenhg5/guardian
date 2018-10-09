@@ -5,6 +5,7 @@ import (
 	"os"
 	"fmt"
 	"github.com/mgutz/ansi"
+	"github.com/mattn/go-runewidth"
 )
 
 var writer io.Writer
@@ -31,9 +32,9 @@ func Output(value map[string]Results, debug bool)  {
 
 		for _, result := range results.List {
 			if result.DataPass && result.ResPass {
-				fmt.Fprintf(writer, "%-30s%24s", result.Title, ok)
+				fmt.Fprintf(writer, "%s%24s", runewidth.FillRight(result.Title, 32), ok)
 			} else {
-				fmt.Fprintf(writer, "%-33s%24s", result.Title, fail)
+				fmt.Fprintf(writer, "%s%24s", runewidth.FillRight(result.Title, 35), fail)
 			}
 
 			fmt.Fprintf(writer, "-------------------------------------------------\n")
