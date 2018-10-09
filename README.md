@@ -2,11 +2,17 @@
 
 api测试框架，表格测试，编写json文件，即可测试api的响应以及对应数据库的正确性，以及测试并发的数据准确性。
 
+## 下载安装
+
+在 https://github.com/chenhg5/guardian/releases 下载对应版本，或者执行：
+
+```bash
+go get -u -v github.com/chenhg5/guardian
+```
+
 ## 使用
 
 ```
-go get -u -v github.com/chenhg5/guardian
-
 guardian --tests=./example/tests/entrance.json
 
 SUIT:  users
