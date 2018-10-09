@@ -5,6 +5,12 @@ import (
 	"net/http"
 )
 
+// 这是一个简单的示例，先导入guardian.sql，接着修改 tests/entrance.json
+// 中sql配置选项，然后再运行：
+//
+// go run main.go
+// guardian --tests=tests/entrance.json
+
 func main() {
 	app := gin.Default()
 
