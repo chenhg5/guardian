@@ -77,7 +77,7 @@ Ok
 |  | header | 头部 | 对象  | 否 | {"token": "1231313"} |
 | response | body | 返回body数据 | 字符串或对象 | 是 | 123 |
 |  | header | 头部 | 对象  | 否 | {"token": "1231313"} |
-| data | 无 | 验证数据 | 数组 | 否 | [<br>{<br>"sql": "select name from user where id = 1",<br>"result": [<br>{<br>"name": "jack"<br>}<br>]<br>}<br>] |
+| data | 无 | 验证数据 | 数组 | 否 | [<br>  {<br>   "sql": "select name from user where id = 1",<br>    "result": [{"name": "jack"}]<br>    }<br>] |
 
 ## 项目信息
 
