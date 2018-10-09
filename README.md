@@ -72,7 +72,7 @@ Ok
 |  | description | 描述 | 字符串 | 是 | 这是一个描述 |
 | concurrent | 无 | 并发数 | 整数 | 否 | 1 |
 | request | url | url | 字符串 | 是 | {{host}}/user |
-|  | method | 方法，仅提供四种: json, get, formget, formpost | 字符串 | 是 | get |
+|  | method | 方法: json, get, post, delete, options, formget, formpost | 字符串 | 是 | get |
 |  | params | 参数 | 对象或数组 | 否 | {"id": 1} |
 |  | header | 头部 | 对象  | 否 | {"token": "1231313"} |
 | response | body | 返回body数据，对象中可以有<br>通配符，如"*"，表示不匹配 | 字符串或对象 | 是 | 123 |
