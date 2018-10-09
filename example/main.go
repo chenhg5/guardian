@@ -25,7 +25,7 @@ func main() {
 					"name":  "Jack",
 					"sex":   1,
 					"phone": "038-09829010",
-					"Job":   "engineer",
+					"job":   "engineer",
 				},
 			},
 		})

@@ -22,5 +22,14 @@
 
     }
   },
-  "data": []
+  "data": [
+    {
+      "sql": "select name from user where id = 1",
+      "result": [
+        {
+          "name": "jack"
+        }
+      ]
+    }
+  ]
 }
