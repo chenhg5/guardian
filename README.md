@@ -62,7 +62,7 @@ Ok
 |  | host | 地址 | 字符串 | 是 | 127.0.0.1 |
 |  | database | 数据库名 | 字符串 | 是 | guardian |
 | tables | 无 | 案例集 | 对象 | 是 | { <br>"users": [ "users/get.json", "users/post.json" ], <br>"orders": ["orders/get.json","orders/post.json"]<br>}
-| vars | 无 | 全局变量 | 对象 | 否 | { "host": "http://127.0.0.1:1235" } |
+| vars | 无 | 全局变量，在案例文件中用<br>{{host}}这种格式表示 | 对象 | 否 | { "host": "http://127.0.0.1:1235" } |
                             
 ### 测试案例
 
