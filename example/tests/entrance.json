@@ -7,12 +7,6 @@
     "host": "127.0.0.1",
     "database": "guardian"
   },
-  "redis": {
-    "database": "",
-    "user": "",
-    "password": "",
-    "host": ""
-  },
   "tables": {
     "users": [
       "users/get.json",
