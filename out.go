@@ -22,6 +22,7 @@ func Output(value map[string]Results, debug bool)  {
 		fail = ansi.Color("Fail\n", "red+b")
 		okMark = ansi.Color("✓️\n", "green")
 		failMark = ansi.Color("x\n", "red+b")
+		finalPass = true
 	)
 
 	for suit, results := range value {
@@ -42,12 +43,14 @@ func Output(value map[string]Results, debug bool)  {
 			if result.ResPass {
 				fmt.Fprintf(writer, "%-28s%24s", "响应比对", okMark)
 			} else {
+				finalPass = false
 				fmt.Fprintf(writer, "%-29s%24s", "响应比对", failMark)
 			}
 
 			if result.DataPass {
 				fmt.Fprintf(writer, "%-28s%24s", "数据比对", okMark)
 			} else {
+				finalPass = false
 				fmt.Fprintf(writer, "%-29s%24s", "数据比对", failMark)
 			}
 
@@ -74,5 +77,9 @@ func Output(value map[string]Results, debug bool)  {
 		}
 
 		fmt.Fprint(writer, "\n")
+	}
+
+	if !finalPass {
+		panic("测试没通过！")
 	}
 }
