@@ -74,8 +74,7 @@ func Request(method string, url string, params interface{}, headers map[string]s
 	data := params.(map[string]interface{})
 	var value string
 	for k, v := range data {
-		value = v.(string)
-		v = GlobalVars.Replace(value)
+		value = GlobalVars.Replace(v.(string))
 		if count == 0 {
 			url += "?" + k + "=" + value
 		} else {
