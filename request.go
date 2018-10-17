@@ -117,8 +117,7 @@ func Form(method string, url string, params interface{}, headers map[string]stri
 
 	var value string
 	for k, v := range formData {
-		value = v.(string)
-		v = GlobalVars.Replace(value)
+		value = GlobalVars.Replace(v.(string))
 		data[k] = []string{value}
 	}
 
