@@ -157,6 +157,6 @@ func GetRequester(key string) RequestFunc {
 	case "formpost":
 		return FormPost
 	default:
-		panic("wrong parameter")
+		panic("wrong method: " + key)
 	}
 }
