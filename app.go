@@ -194,8 +194,9 @@ type TableRequest struct {
 
 // 响应信息
 type TableResponse struct {
-	Header map[string]string
-	Body   interface{}
+	Header     map[string]string
+	Body       interface{}
+	StatusCode int
 }
 
 // 数据信息
