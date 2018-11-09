@@ -51,7 +51,7 @@ func (eng *Engine) Run() {
 
 func (suit *Suit) Run() Results {
 
-	// 发请求 =》得到响应 =》对比响应 =》对比数据库与redis结果 =》记录结果返回
+	// 预处理 => 发请求 => 得到响应 => 对比响应 => 对比数据库与redis结果 => 记录结果返回
 
 	var (
 		actual           *http.Response
