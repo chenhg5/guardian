@@ -78,7 +78,9 @@ Ok
 |  | header | 头部 | 对象  | 否 | {"token": "1231313"} |
 | response | body | 返回body数据，对象中可以有<br>通配符，如"*"，表示不匹配 | 字符串或对象 | 是 | 123 |
 |  | header | 头部 | 对象  | 否 | {"token": "1231313"} |
+|  | statusCode | 状态码 | 整数  | 否 | 200 |
 | data | 无 | 验证数据 | 数组 | 否 | [<br>  {<br>   "sql": "select name from user where id = 1",<br>    "result": [{"name": "jack"}]<br>    }<br>] |
+| pre-execution | 无 | 预处理sql | 数组 | 否 | [<br>"delete from user where id = 1"<br>] |
 
 ## 项目信息
 
@@ -159,4 +161,8 @@ Ok
 - 数据
     - sql
     - 期待结果
-    - 对比方式                               
+    - 对比方式   
+    
+## TODO
+
+- 增加web ui显示测试案例及运行情况                                
