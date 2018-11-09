@@ -8,7 +8,7 @@ import (
 
 func Read(entrancePath string, engine *Engine) *Engine {
 	engine.entrance = entrancePath
-	engine.tables = make(Suits, 0)
+	engine.suits = make(Suits, 0)
 	engine.result = make(map[string]Results, 0)
 
 	// 入口文件读取配置
@@ -40,9 +40,9 @@ func Read(entrancePath string, engine *Engine) *Engine {
 
 	// 读取表格信息
 	for suit, tables := range config.Tables {
-		var tableList = make(Suit, 0)
-		for i := 0; i < len(tables); i++ {
-			tableFile, err := os.Open(dir + "/" + tables[i])
+		var tableList = make([]Table, 0)
+		for i := 0; i < len(tables.Tables); i++ {
+			tableFile, err := os.Open(dir + "/" + tables.Tables[i])
 			if err != nil {
 				tableFile.Close()
 				panic(err)
@@ -63,7 +63,11 @@ func Read(entrancePath string, engine *Engine) *Engine {
 			json.Unmarshal(tableByte, &table)
 			tableList = append(tableList, table)
 		}
-		engine.tables.Add(suit, &tableList)
+		engine.suits.Add(suit, &Suit{
+			Tables:  tableList,
+			PreSqls: tables.PreSqls,
+			AfterSqls: tables.AfterSqls,
+		})
 	}
 
 	// 设置全局变量

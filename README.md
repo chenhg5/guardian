@@ -61,7 +61,7 @@ Ok
 |  | charset | 字符集 | 字符串 | 是 | utf8 |
 |  | host | 地址 | 字符串 | 是 | 127.0.0.1 |
 |  | database | 数据库名 | 字符串 | 是 | guardian |
-| tables | 无 | 案例集 | 对象 | 是 | { <br>"users": [ "users/get.json", "users/post.json" ], <br>"orders": ["orders/get.json","orders/post.json"]<br>}
+| tables | 无 | 案例集 | 对象 | 是 | { <br>"users": { "list": ["users/get.json", "users/post.json" ], "pre-execution": [], "after-execution": []}<br>}
 | vars | 无 | 全局变量，在案例文件中用<br>{{host}}这种格式表示 | 对象 | 否 | { "host": "http://127.0.0.1:1235" } |
 | debug | 无 | 设置为true则会<br>打印所有返回结果<br>与数据库查询结果 |  布尔 | 否 | false |
                             
@@ -80,7 +80,6 @@ Ok
 |  | header | 头部 | 对象  | 否 | {"token": "1231313"} |
 |  | statusCode | 状态码 | 整数  | 否 | 200 |
 | data | 无 | 验证数据 | 数组 | 否 | [<br>  {<br>   "sql": "select name from user where id = 1",<br>    "result": [{"name": "jack"}]<br>    }<br>] |
-| pre-execution | 无 | 预处理sql | 数组 | 否 | [<br>"delete from user where id = 1"<br>] |
 | after | 无 | 全局变量更新 | 对象 | 否 | { "host": "http://127.0.0.1:1235" } |
 
 ## 项目信息
@@ -166,4 +165,7 @@ Ok
     
 ## TODO
 
-- 增加web ui显示测试案例及运行情况                                
+- 增加web ui显示测试案例及运行情况
+- 完善例子
+- 增加网站说明
+- 增加英文版说明                                

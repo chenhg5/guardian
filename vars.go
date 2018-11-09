@@ -46,6 +46,7 @@ func (v Vars) Replace(value string) string {
 			value = strings.Replace(value, "{{"+key+"}}", newVal, -1)
 		} else {
 			value = strings.Replace(value, `"{{`+key+`}}"`, newVal, -1)
+			value = strings.Replace(value, `{{`+key+`}}`, newVal, -1)
 		}
 	}
 	return value

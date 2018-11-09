@@ -94,8 +94,10 @@ func CheckRedis(actual map[string]interface{}, expect map[string]interface{}) (b
 func CheckMap(a map[string]interface{}, e map[string]interface{}) bool {
 
 	var (
-		find string
-		reg  = regexp.MustCompile("{{(.*?)}}")
+		find        string
+		reg         = regexp.MustCompile("{{(.*?)}}")
+		compareReg  = regexp.MustCompile("\\[(.*?)]")
+		compare     interface{}
 	)
 
 	if len(a) == 0 {
@@ -103,6 +105,7 @@ func CheckMap(a map[string]interface{}, e map[string]interface{}) bool {
 	}
 
 	for key, value := range a {
+		compare = e[key]
 		if _, ok := value.(string); ok {
 			if _, ok := e[key].(string); ok {
 				find = reg.FindString(e[key].(string))
@@ -116,21 +119,29 @@ func CheckMap(a map[string]interface{}, e map[string]interface{}) bool {
 				return false
 			}
 		}
+		if _, ok := e[key].(string); ok {
+			find = compareReg.FindString(e[key].(string))
+			if find != "" {
+				find = strings.Replace(find, "[", "", -1)
+				find = strings.Replace(find, "]", "", -1)
+				compare = GlobalVars.Get(find)
+			}
+		}
 		if valueMap, ok := value.(map[string]interface{}); ok {
-			if bMap, ok := e[key].(map[string]interface{}); ok {
+			if bMap, ok := compare.(map[string]interface{}); ok {
 				return CheckMap(valueMap, bMap)
 			} else {
-				if eStr, ok := e[key].(string); ok && eStr == "*" {
+				if eStr, ok := compare.(string); ok && eStr == "*" {
 					continue
 				} else {
 					return false
 				}
 			}
 		}
-		if eStr, ok := e[key].(string); ok && eStr == "*" {
+		if eStr, ok := compare.(string); ok && eStr == "*" {
 			continue
 		}
-		if e[key] != value {
+		if compare != value {
 			return false
 		}
 	}

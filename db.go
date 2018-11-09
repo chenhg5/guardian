@@ -40,3 +40,11 @@ func Query(sql string) []map[string]interface{} {
 	res, _ := db.Query(sql)
 	return res
 }
+
+func Excecute(sqls ExceSql) bool {
+	for _, sql := range sqls {
+		db.Exec(sql)
+	}
+	return true
+}
+

@@ -12,8 +12,8 @@ type Engine struct {
 	// 全局变量
 	vars Vars
 
-	// 测试表格
-	tables Suits
+	// 测试表格集
+	suits Suits
 
 	// 测试结果
 	result map[string]Results
@@ -32,7 +32,7 @@ func New(path string) *Engine {
 func (eng *Engine) Run() {
 	// 测试
 	var wg sync.WaitGroup
-	for key, suit := range eng.tables {
+	for key, suit := range eng.suits {
 		wg.Add(1)
 		result := suit.Run()
 		go func(eng *Engine, key string, result Results) {
@@ -51,7 +51,7 @@ func (eng *Engine) Run() {
 
 func (suit *Suit) Run() Results {
 
-	// 预处理 => 发请求 => 得到响应 => 对比响应 => 对比数据库与redis结果 => 记录结果返回 => 后续处理
+	// 预处理 => 发请求 => 得到响应 => 对比响应 => 对比数据库与redis结果 => 记录结果返回 => 变量更新
 
 	var (
 		actual           *http.Response
@@ -69,18 +69,19 @@ func (suit *Suit) Run() Results {
 		resultList       = make([]Result, 0)
 		url              string
 	)
-	for _, table := range *suit {
 
-		// 预处理
-		preExcecute(table.PreSqls)
-		
+	// 预处理
+	Excecute((*suit).PreSqls)
+
+	for _, table := range (*suit).Tables {
+
 		resDesc = ""
 		sqlDesc = ""
 		resPass = true
 		dataPass = true
 
 		// 发请求
-		url = GlobalVars.Replace(table.Request.Url)
+		url = GlobalVars.ReplaceString(table.Request.Url)
 
 		if table.Concurrent == 0 {
 			actual = GetRequester(table.Request.Method)(url, table.Request.Param, table.Request.Header)
@@ -131,9 +132,12 @@ func (suit *Suit) Run() Results {
 			Title:    table.Info.Title,
 		})
 
-		// 后续处理
+		// 变量更新
 		GlobalVars.Refresh(table.After)
 	}
+
+	// 后续处理
+	Excecute((*suit).AfterSqls)
 
 	return Results{
 		Pass:        pass,
@@ -144,11 +148,17 @@ func (suit *Suit) Run() Results {
 
 // 入口配置
 type Config struct {
-	Tables   map[string][]string
+	Tables   map[string]SuitConfig
 	Database Database
 	Redis    Redis
 	Vars     map[string]interface{}
 	Debug    bool
+}
+
+type SuitConfig struct {
+	Tables    []string `json:"list"`
+	PreSqls   ExceSql  `json:"pre-execution"`
+	AfterSqls ExceSql  `json:"after-execution"`
 }
 
 type Results struct {
@@ -173,7 +183,11 @@ func (su Suits) Add(key string, suit *Suit) {
 }
 
 // 测试集
-type Suit []Table
+type Suit struct {
+	Tables    []Table
+	PreSqls   ExceSql
+	AfterSqls ExceSql
+}
 
 // 测试表格
 type Table struct {
@@ -182,7 +196,6 @@ type Table struct {
 	Request    TableRequest
 	Response   TableResponse
 	Data       []TableData
-	PreSqls    PreSql `json:"pre-execution"`
 	After      Vars
 }
 
@@ -213,4 +226,4 @@ type TableData struct {
 	Result []map[string]interface{}
 }
 
-type PreSql []string
+type ExceSql []string
