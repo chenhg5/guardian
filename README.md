@@ -81,6 +81,7 @@ Ok
 |  | statusCode | 状态码 | 整数  | 否 | 200 |
 | data | 无 | 验证数据 | 数组 | 否 | [<br>  {<br>   "sql": "select name from user where id = 1",<br>    "result": [{"name": "jack"}]<br>    }<br>] |
 | pre-execution | 无 | 预处理sql | 数组 | 否 | [<br>"delete from user where id = 1"<br>] |
+| after | 无 | 全局变量更新 | 对象 | 否 | { "host": "http://127.0.0.1:1235" } |
 
 ## 项目信息
 

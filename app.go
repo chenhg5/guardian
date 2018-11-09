@@ -51,7 +51,7 @@ func (eng *Engine) Run() {
 
 func (suit *Suit) Run() Results {
 
-	// 预处理 => 发请求 => 得到响应 => 对比响应 => 对比数据库与redis结果 => 记录结果返回
+	// 预处理 => 发请求 => 得到响应 => 对比响应 => 对比数据库与redis结果 => 记录结果返回 => 后续处理
 
 	var (
 		actual           *http.Response
@@ -79,8 +79,7 @@ func (suit *Suit) Run() Results {
 		resPass = true
 		dataPass = true
 
-		// 请求
-
+		// 发请求
 		url = GlobalVars.Replace(table.Request.Url)
 
 		if table.Concurrent == 0 {
@@ -123,6 +122,7 @@ func (suit *Suit) Run() Results {
 			sqlDesc += checkMysqlResult
 		}
 
+		// 记录结果
 		resultList = append(resultList, Result{
 			ResPass:  resPass,
 			DataPass: dataPass,
@@ -130,6 +130,9 @@ func (suit *Suit) Run() Results {
 			SqlDesc:  sqlDesc,
 			Title:    table.Info.Title,
 		})
+
+		// 后续处理
+		GlobalVars.Refresh(table.After)
 	}
 
 	return Results{
@@ -144,7 +147,7 @@ type Config struct {
 	Tables   map[string][]string
 	Database Database
 	Redis    Redis
-	Vars     map[string]string
+	Vars     map[string]interface{}
 	Debug    bool
 }
 
@@ -180,6 +183,7 @@ type Table struct {
 	Response   TableResponse
 	Data       []TableData
 	PreSqls    PreSql `json:"pre-execution"`
+	After      Vars
 }
 
 // 表格信息
