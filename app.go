@@ -71,6 +71,9 @@ func (suit *Suit) Run() Results {
 	)
 	for _, table := range *suit {
 
+		// 预处理
+		preExcecute(table.PreSqls)
+		
 		resDesc = ""
 		sqlDesc = ""
 		resPass = true
@@ -176,6 +179,7 @@ type Table struct {
 	Request    TableRequest
 	Response   TableResponse
 	Data       []TableData
+	PreSqls    PreSql `json:"pre-execution"`
 }
 
 // 表格信息
@@ -204,3 +208,5 @@ type TableData struct {
 	Sql    string
 	Result []map[string]interface{}
 }
+
+type PreSql []string

@@ -15,7 +15,8 @@ func CheckResponse(actual *http.Response, expect TableResponse) (bool, string) {
 
 	if expect.StatusCode != 0 {
 		if expect.StatusCode != actual.StatusCode {
-			return true, strconv.Itoa(actual.StatusCode) + "\n\n" + strconv.Itoa(expect.StatusCode)
+			return false, "actual statusCode: " + strconv.Itoa(actual.StatusCode) + "\n\n" +
+				"expect statusCode: " + strconv.Itoa(expect.StatusCode)
 		}
 	}
 
