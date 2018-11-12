@@ -2,6 +2,8 @@ package main
 
 import (
 	"flag"
+	"io"
+	"os"
 )
 
 func main()  {
@@ -15,8 +17,7 @@ func main()  {
 		panic("wrong parameter")
 	}
 
-	InitWriter()
+	InitWriter(io.MultiWriter(os.Stdout))
 
-	eng := New(entrance)
-	eng.Run()
+	New(entrance).Run()
 }

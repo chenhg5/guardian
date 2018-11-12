@@ -2,7 +2,6 @@ package main
 
 import (
 	"io"
-	"os"
 	"fmt"
 	"github.com/mgutz/ansi"
 	"github.com/mattn/go-runewidth"
@@ -10,8 +9,8 @@ import (
 
 var writer io.Writer
 
-func InitWriter()  {
-	writer = io.MultiWriter(os.Stdout)
+func InitWriter(w io.Writer)  {
+	writer = w
 }
 
 func Output(value map[string]Results, debug bool)  {
