@@ -29,11 +29,18 @@ func New(path string) *Engine {
 	return Read(path, new(Engine))
 }
 
+var IsDebug bool
+
 func (eng *Engine) Run() {
+
+	IsDebug = eng.debug
+	LogFirst()
+
 	// 测试
 	var wg sync.WaitGroup
 	for key, suit := range eng.suits {
 		wg.Add(1)
+		LogTitle(key)
 		result := suit.Run()
 		go func(eng *Engine, key string, result Results) {
 			eng.reslock.Lock()
@@ -45,8 +52,8 @@ func (eng *Engine) Run() {
 
 	wg.Wait()
 
-	// 输出结果
-	Output(eng.result, eng.debug)
+	// 输出最终结果
+	LogFinal()
 }
 
 func (suit *Suit) Run() Results {
@@ -134,6 +141,8 @@ func (suit *Suit) Run() Results {
 
 		// 变量更新
 		GlobalVars.Refresh(table.After)
+
+		LogResult(dataPass, resPass, IsDebug, sqlDesc, resDesc, table.Info.Title)
 	}
 
 	// 后续处理
