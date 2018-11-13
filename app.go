@@ -56,6 +56,7 @@ func (suit *Suit) Run() Results {
 	var (
 		actual           *http.Response
 		actualChan       = make(chan *http.Response, 0)
+		resultList       = make([]Result, 0)
 		pass             = true
 		resPass          = true
 		dataPass         = true
@@ -66,7 +67,6 @@ func (suit *Suit) Run() Results {
 		checkResResult   string
 		checkMysqlOk     bool
 		checkMysqlResult string
-		resultList       = make([]Result, 0)
 		url              string
 	)
 

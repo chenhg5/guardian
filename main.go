@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func main()  {
+func main() {
 
 	var entrance string
 

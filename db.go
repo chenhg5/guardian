@@ -47,4 +47,3 @@ func Excecute(sqls ExceSql) bool {
 	}
 	return true
 }
-

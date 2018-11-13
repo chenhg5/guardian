@@ -9,23 +9,23 @@ import (
 
 var writer io.Writer
 
-func InitWriter(w io.Writer)  {
+func InitWriter(w io.Writer) {
 	writer = w
 }
 
-func Output(value map[string]Results, debug bool)  {
+func Output(value map[string]Results, debug bool) {
 	fmt.Fprintf(writer, "\n")
 
 	var (
-		ok = ansi.Color("Ok\n", "green")
-		fail = ansi.Color("Fail\n", "red+b")
-		okMark = ansi.Color("✓️\n", "green")
-		failMark = ansi.Color("x\n", "red+b")
+		ok        = ansi.Color("Ok\n", "green")
+		fail      = ansi.Color("Fail\n", "red+b")
+		okMark    = ansi.Color("✓️\n", "green")
+		failMark  = ansi.Color("x\n", "red+b")
 		finalPass = true
 	)
 
 	for suit, results := range value {
-		fmt.Fprintf(writer, "SUIT: %s\n", ansi.Color(" " + suit + " ", "white:blue"))
+		fmt.Fprintf(writer, "SUIT: %s\n", ansi.Color(" "+suit+" ", "white:blue"))
 		fmt.Fprintf(writer, "=================================================\n")
 
 		count := 0
@@ -55,12 +55,12 @@ func Output(value map[string]Results, debug bool)  {
 
 			if !result.ResPass || debug {
 				fmt.Fprintf(writer, "-------------------------------------------------\n")
-				fmt.Fprintf(writer, ansi.Color("response \n\n", "yellow+b") + result.ResDesc + "\n")
+				fmt.Fprintf(writer, ansi.Color("response \n\n", "yellow+b")+result.ResDesc+"\n")
 			}
 
 			if !result.DataPass || debug {
 				fmt.Fprintf(writer, "-------------------------------------------------\n")
-				fmt.Fprintf(writer, ansi.Color("sql \n\n", "yellow+b") + result.SqlDesc + "\n")
+				fmt.Fprintf(writer, ansi.Color("sql \n\n", "yellow+b")+result.SqlDesc+"\n")
 			}
 
 			fmt.Fprintf(writer, "=================================================\n")
