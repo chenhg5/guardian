@@ -11,6 +11,7 @@ var (
 	writer    io.Writer
 	finalPass = true
 	ok        = ansi.Color("Ok\n", "green")
+	pass      = ansi.Color("Pass\n", "green")
 	fail      = ansi.Color("Fail\n", "red+b")
 	okMark    = ansi.Color("✓️\n", "green")
 	failMark  = ansi.Color("x\n", "red+b")
@@ -69,7 +70,7 @@ func LogFinal() {
 	if !finalPass {
 		panic("测试没通过！")
 	} else {
-		fmt.Fprintf(writer, "%s", ok)
+		fmt.Fprintf(writer, "%s", pass)
 		fmt.Fprint(writer, "\n")
 	}
 }
