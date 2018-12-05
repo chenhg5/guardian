@@ -106,20 +106,16 @@ func CheckMap(a map[string]interface{}, e map[string]interface{}) bool {
 
 	for key, value := range a {
 		compare = e[key]
-		if _, ok := value.(string); ok {
-			if _, ok := e[key].(string); ok {
-				find = reg.FindString(e[key].(string))
-				if find != "" {
-					find = strings.Replace(find, "{{", "", -1)
-					find = strings.Replace(find, "}}", "", -1)
-					GlobalVars.Add(find, value.(string))
-					continue
-				}
-			} else {
-				return false
-			}
-		}
 		if _, ok := e[key].(string); ok {
+
+			find = reg.FindString(e[key].(string))
+			if find != "" {
+				find = strings.Replace(find, "{{", "", -1)
+				find = strings.Replace(find, "}}", "", -1)
+				GlobalVars.Add(find, value)
+				continue
+			}
+
 			find = compareReg.FindString(e[key].(string))
 			if find != "" {
 				find = strings.Replace(find, "[", "", -1)
