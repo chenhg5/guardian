@@ -199,6 +199,7 @@ func (su Suits) Add(key string, suit *Suit) {
 // 测试集
 type Suit struct {
 	Tables    []Table
+	Name      string
 	PreSqls   ExceSql
 	AfterSqls ExceSql
 }

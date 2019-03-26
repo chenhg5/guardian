@@ -65,6 +65,7 @@ func Read(entrancePath string, engine *Engine) *Engine {
 		}
 		engine.suits.Add(suit, &Suit{
 			Tables:    tableList,
+			Name:      tables.Name,
 			PreSqls:   tables.PreSqls,
 			AfterSqls: tables.AfterSqls,
 		})
