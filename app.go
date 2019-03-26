@@ -40,7 +40,11 @@ func (eng *Engine) Run() {
 	var wg sync.WaitGroup
 	for key, suit := range eng.suits {
 		wg.Add(1)
-		LogTitle(key)
+		if suit.Name != "" {
+			LogTitle(suit.Name)
+		} else {
+			LogTitle(key)
+		}
 		result := suit.Run()
 		go func(eng *Engine, key string, result Results) {
 			eng.reslock.Lock()
@@ -166,6 +170,7 @@ type Config struct {
 
 type SuitConfig struct {
 	Tables    []string `json:"list"`
+	Name      string   `json:"name"`
 	PreSqls   ExceSql  `json:"pre-execution"`
 	AfterSqls ExceSql  `json:"after-execution"`
 }
