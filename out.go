@@ -29,7 +29,7 @@ func LogResult(DataPass, ResPass, debug bool, SqlDesc, ResDesc, Title string) {
 		fmt.Fprintf(writer, "%s%24s", runewidth.FillRight(Title, 35), fail)
 	}
 
-	fmt.Fprintf(writer, "-------------------------------------------------\n")
+	line()
 
 	if ResPass {
 		fmt.Fprintf(writer, "%-28s%24s", "响应比对", okMark)
@@ -46,20 +46,28 @@ func LogResult(DataPass, ResPass, debug bool, SqlDesc, ResDesc, Title string) {
 	}
 
 	if !ResPass || debug {
-		fmt.Fprintf(writer, "-------------------------------------------------\n")
+		line()
 		fmt.Fprintf(writer, ansi.Color("response \n\n", "yellow+b")+ResDesc+"\n")
 	}
 
 	if !DataPass || debug {
-		fmt.Fprintf(writer, "-------------------------------------------------\n")
+		line()
 		fmt.Fprintf(writer, ansi.Color("sql \n\n", "yellow+b")+SqlDesc+"\n")
 	}
 
-	fmt.Fprintf(writer, "=================================================\n")
+	equalLine()
 }
 
 func LogTitle(suit string) {
 	fmt.Fprintf(writer, "SUIT: %s\n", ansi.Color(" "+suit+" ", "white:blue"))
+	equalLine()
+}
+
+func line() {
+	fmt.Fprintf(writer, "-------------------------------------------------\n")
+}
+
+func equalLine() {
 	fmt.Fprintf(writer, "=================================================\n")
 }
 
